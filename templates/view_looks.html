@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Body Shape Style Recommendations 👗</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fce4ec, #e3f2fd);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    h1 {
+      margin-top: 40px;
+      color: #333;
+    }
+    h2 {
+      margin-top: 40px;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .looks-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      width: 85%;
+      margin: 20px auto 60px;
+    }
+    .look-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      padding-bottom: 10px;
+      transition: transform 0.3s ease;
+    }
+    .look-card:hover {
+      transform: translateY(-8px);
+    }
+    .look-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .look-card h3 {
+      color: #444;
+      margin: 10px 0 5px;
+    }
+    .look-card p {
+      color: #666;
+      font-size: 0.9rem;
+      padding: 0 10px 10px;
+    }
+    .look-card a {
+      display: inline-block;
+      background: #ff4081;
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 25px;
+      transition: background 0.3s ease;
+    }
+    .look-card a:hover {
+      background: #e91e63;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Style Recommendations 👗</h1>
+
+  {% if selected_shape %}
+      <h2>Recommended for {{ selected_shape }}</h2>
+  {% else %}
+      <h2>All Body Shapes</h2>
+  {% endif %}
+
+  {% for shape, looks in all_looks.items() %}
+      <h2>{{ shape }}</h2>
+      <div class="looks-container">
+        {% for look in looks %}
+        <div class="look-card">
+          <img src="{{ url_for('static', filename='images/' + look.img) }}" alt="{{ look.name }}">
+          <h3>{{ look.name }}</h3>
+          <p>{{ look.desc }}</p>
+          <a href="{{ look.link }}" target="_blank">Shop →</a>
+        </div>
+        {% endfor %}
+      </div>
+  {% endfor %}
+
+</body>
+</html>

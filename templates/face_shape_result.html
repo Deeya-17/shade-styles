@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Face Shape Result | Shade Styles AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffe6f1, #f9f0ff);
+      color: #333;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      max-width: 600px;
+      margin: auto;
+      animation: fadeIn 0.7s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      color: #e75480;
+      font-size: 28px;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    img {
+      width: 200px;
+      height: auto;
+      border-radius: 15px;
+      margin: 20px 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    h3 {
+      color: #444;
+      font-size: 18px;
+      margin-top: 20px;
+      font-weight: 600;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      font-size: 15px;
+      margin: 15px 0;
+      color: #555;
+    }
+
+    li {
+      margin: 6px 0;
+      line-height: 1.6;
+      background: #fff2f6;
+      border-radius: 12px;
+      padding: 10px 15px;
+      transition: all 0.3s ease;
+    }
+
+    li:hover {
+      background: #ffe0eb;
+      transform: translateX(5px);
+    }
+
+    a {
+      display: inline-block;
+      text-decoration: none;
+      margin-top: 25px;
+      background: linear-gradient(135deg, #ff7aa2, #ff92c2);
+      color: white;
+      padding: 10px 25px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      transition: all 0.3s ease;
+    }
+
+    a:hover {
+      background: linear-gradient(135deg, #ff5b9e, #ff89b4);
+      transform: scale(1.06);
+      box-shadow: 0 6px 18px rgba(255, 105, 180, 0.3);
+    }
+
+    .note {
+      font-size: 13px;
+      color: #888;
+      margin-top: 10px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Your Face Shape: {{ shape }}</h1>
+    <h3>✨ Recommended Styles</h3>
+    <ul>
+      <li><strong>Hairstyles:</strong> {{ recs.hairstyles | join(', ') }}</li>
+      <li><strong>Sunglasses:</strong> {{ recs.sunglasses | join(', ') }}</li>
+      <li><strong>Accessories:</strong> {{ recs.accessories | join(', ') }}</li>
+    </ul>
+    <a href="{{ url_for('face_shape_detector') }}">Analyze Again</a>
+    <a href="{{ url_for('dashboard') }}" class="dashboard">Back to dashboard</a>
+    <p class="note">Style suggestions are personalized based on your detected face shape 💁‍♀️</p>
+  </div>
+</body>
+</html>

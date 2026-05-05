@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shade Styles AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">
+      <span class="icon">👕</span>
+      <h2>Shade Styles</h2>
+    </div>
+    <div class="nav-links">
+       <a href="{{ url_for('login') }}" class="login">Login</a>
+      <a href="{{ url_for('signup') }}" class="signup">Sign Up →</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Discover Your <br> Unique Style</h1>
+      <p>Let our stylist help you find the perfect colors, shapes, and outfits that truly express who you are.</p>
+      <a href="{{ url_for('dashboard') }}" class="cta-btn">Find Your Style Now →</a>
+    </div>
+    <div class="hero-image">
+    <img src="{{ url_for('static', filename='images/model.jpg') }}" alt="Fashion model">
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works">
+    <h2>How It Works</h2>
+    <p>Our tools analyze your unique features to provide hyper-personalized style guidance.</p>
+
+    <div class="features">
+      <div class="feature-card">
+        <div class="icon">🎨</div>
+        <h3>Undertone Detection</h3>
+        <p>Discover your skin undertone to unlock your perfect color palette.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📷</div>
+        <h3>Shape Analysis</h3>
+        <p>Analyze your body and face shape for flattering style choices.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🤖</div>
+        <h3>AI Style Chatbot</h3>
+        <p>Get instant fashion advice from your personal stylist.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">👚</div>
+        <h3>Personalized Looks</h3>
+        <p>Receive style recommendations curated just for you.</p>
+      </div>
+    </div>
+</section>
+</body>
+</html>

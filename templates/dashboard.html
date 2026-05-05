@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Shade Styles</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2 class="logo">👕 Shade Styles </h2>
+      <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="{{ url_for('undertone') }}">Undertone Analysis</a></li>
+        <li><a href="{{ url_for('start_analysis') }}">Shape Analysis</a></li>
+        <li><a href="{{ url_for('faces') }}">Face Shape Analysis</a></li>
+        <li><a href="{{ url_for('ai_stylist_chat') }}">AI Stylebot</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <h1>Welcome back, User!</h1>
+      <p>Ready to redefine your style? Here's where you can start.</p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon">🎨</div>
+          <h3>Find Your Colors</h3>
+          <p>Analyze your skin undertone for the perfect color palette.</p>
+          <a href="{{ url_for('undertone') }}" class="btn btn-primary">Upload Photo →</a>
+        </div>
+      
+        <!-- Discover Your Shape -->
+        <div class="card">
+          <div class="icon">📸</div>
+          <h3>Discover Your Shape</h3>
+          <p>Identify your body shape for flattering fits.</p>
+          <a href="{{ url_for('start_analysis') }}" class="btn">Start Analysis →</a>
+        </div>
+
+         <div class="card">
+           <div class="icon">👧🏻</div>
+           <h3>Face Shape Detector</h3>
+           <p>Detect your unique face shape instantly using AI.</p>
+           <a href="{{ url_for('faces') }}" class="btn">Upload Photo →</a>
+         </div>
+
+        <!-- Ask a Stylist -->
+        <div class="card">
+          <div class="icon">🤖</div>
+          <h3>Ask a Stylist</h3>
+          <p>Get instant answers to your fashion questions from our AI.</p>
+          <a href="{{ url_for('ai_stylist_chat') }}" class="btn">AI Stylebot</a>
+        </div>
+
+
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>

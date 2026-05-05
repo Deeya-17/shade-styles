@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Undertone Detector</title>
+   <style>
+    /* 🌈 Palette Container */
+    .color-palette {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+        gap: 25px;
+        flex-wrap: wrap;
+        padding: 30px;
+        border-radius: 25px;
+        background: rgba(255, 240, 245, 0.6);
+        backdrop-filter: blur(10px);
+        box-shadow: inset 0 0 15px rgba(255, 182, 193, 0.2);
+        border: 1px solid rgba(255, 182, 193, 0.3);
+    }
+
+    /* 🎨 Individual Color Card */
+    .color-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90px;
+        height: 110px;
+        background: white;
+        border-radius: 16px;
+        padding: 15px 10px;
+        border: 1px solid #ffe6ef;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s;
+    }
+
+    .color-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 22px rgba(0,0,0,0.1);
+        background: linear-gradient(180deg, #fff, #ffeaf1);
+    }
+
+    /* 🟣 Color Box */
+    .color-box {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,0.1);
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        margin-bottom: 8px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .color-card:hover .color-box {
+        transform: scale(1.1);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    /* 🏷️ Color Name */
+    .color-name {
+        font-size: 13px;
+        text-align: center;
+        color: #444;
+        font-weight: 600;
+        margin-top: 5px;
+        letter-spacing: 0.2px;
+    }
+
+    /* 💡 Tooltip on Hover */
+    .color-card::after {
+        content: attr(data-hex);
+        position: absolute;
+        bottom: 10px;
+        opacity: 0;
+        visibility: hidden;
+        font-size: 11px;
+        color: #d6336c;
+        background: rgba(255, 230, 240, 0.8);
+        padding: 3px 8px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .color-card:hover::after {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(6px);
+    }
+
+    /* 🧊 Palette Group Box (optional for multiple tone sets) */
+    .palette-group {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 182, 193, 0.3);
+        border-radius: 20px;
+        padding: 30px;
+        margin: 25px auto;
+        max-width: 800px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+
+    .palette-title {
+        color: #d6336c;
+        font-weight: 700;
+        font-size: 22px;
+        margin-bottom: 20px;
+        letter-spacing: 0.5px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Undertone Detector</h1>
+        <p>Welcome {{ profile.name }}! ({{ profile.age }} yrs | {{ profile.gender }})</p>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*">
+            <button type="submit">Detect Undertone</button>
+        </form>
+
+        {% if undertone %}
+        <h2>✅ Your Undertone: {{ undertone }}</h2>
+        <h3>💡 Recommended Colors:</h3>
+        <div class="color-palette">
+            {% for name, hex in colors %}
+                <div class="color-card">
+                    <div class="color-box" style="background-color: {{ hex }};" title="{{ name }}"></div>
+                    <div class="color-name">{{ name }}</div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

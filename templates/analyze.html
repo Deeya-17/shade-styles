@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Analyze | Fashion Color Theory</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+    }
+    h1 {
+      color: #e91e63;
+    }
+    .btn {
+      text-decoration: none;
+      color: white;
+      background: #e91e63;
+      padding: 10px 25px;
+      border-radius: 25px;
+      margin-top: 20px;
+      display: inline-block;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #ad1457;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Analysis Page 🎨</h1>
+  <p>Here we’ll detect your fashion color palette soon!</p>
+  <a href="{{ url_for('home') }}" class="btn">← Back to Home</a>
+</body>
+</html>

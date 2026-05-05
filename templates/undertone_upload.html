@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload for Undertone Analysis | Shade Styles AI</title>
+  <style>
+    /* 🌸 General Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fff0f5, #ffeef7, #fff);
+      color: #333;
+      margin: 0;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    /* 🌸 Card Container */
+    .upload-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 25px;
+      padding: 50px;
+      max-width: 700px;
+      margin: 0 auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 1px solid rgba(255, 182, 193, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    /* 🌸 Title */
+    h1 {
+      color: #d6336c;
+      font-size: 36px;
+      margin-bottom: 15px;
+      letter-spacing: 0.5px;
+    }
+
+    h2 {
+      color: #555;
+      font-weight: 600;
+      margin-bottom: 25px;
+    }
+
+    /* 📸 File Input */
+    input[type="file"] {
+      background: white;
+      border: 2px dashed #ff8fab;
+      padding: 15px;
+      border-radius: 12px;
+      width: 80%;
+      margin: 15px 0;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    input[type="file"]:hover {
+      background: #fff5f8;
+      border-color: #ff477e;
+    }
+
+    /* 💖 Button */
+    button {
+      background: linear-gradient(135deg, #ff8fab, #ff477e);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(255, 105, 180, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #ff477e, #d6336c);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(255, 105, 180, 0.4);
+    }
+
+    /* ✨ Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .upload-card, input, button {
+      animation: fadeIn 0.7s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  <div class="upload-card">
+    <h1>🎨 Undertone Detector</h1>
+    <h2>Upload Your Photo for Analysis</h2>
+<form action="{{ url_for('undertone') }}" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" accept="image/*" required>
+    <button type="submit">Analyze Undertone</button>
+    <button> <a href="{{ url_for('dashboard') }}" class="dashboard">Back to dashboard</a> </button>
+</form>
+  </div>
+</body>
+</html>

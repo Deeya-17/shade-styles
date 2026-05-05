@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ChicBot – Chat</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+.bot-message {
+    background: linear-gradient(135deg, #ffd6e8, #ffeef7);
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    max-width: 85%;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: #5a2a3c;
+    box-shadow: 0 4px 12px rgba(255, 182, 213, 0.5);
+    border: 1px solid rgba(255, 150, 200, 0.4);
+    animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(6px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+</style>
+</head>
+
+<body class="bg-pink-50 min-h-screen flex justify-center p-6">
+
+<div class="w-full max-w-2xl bg-white rounded-3xl shadow-xl flex flex-col h-[80vh]">
+
+    <header class="p-4 bg-pink-500 text-white text-xl font-bold rounded-t-3xl">
+        💬 ChicBot Chat
+    </header>
+<div id="chat-box">
+    <div class="bot-message">
+        <p>Hey gorgeous! 💕 What kind of outfit ideas are you looking for today?</p>
+    </div>
+</div>    <div id="chat-window" class="flex-grow overflow-y-auto p-4 space-y-3"></div>
+
+    <div class="p-4 flex space-x-2 border-t">
+        <input id="user-input" class="flex-grow p-3 border rounded-xl" placeholder="Ask for outfit ideas...">
+        <button id="send-btn" onclick="sendMessage()" class="bg-pink-500 text-white px-4 py-2 rounded-xl">Send</button>
+    </div>
+</div>
+
+<script>
+async function sendMessage() {
+    const input = document.getElementById("user-input");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    add("user", msg);
+    input.value = "";
+
+    const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            message: msg,
+            systemPrompt: "You are ChicBot, a stylish AI fashion helper."
+        })
+    });
+
+    const data = await res.json();
+    add("bot", data.reply);
+}
+
+function add(sender, text) {
+    const wrap = document.createElement("div");
+    wrap.className = sender === "user" ? "text-right" : "text-left";
+
+    const bubble = document.createElement("div");
+    bubble.className = sender === "user"
+        ? "inline-block bg-pink-500 text-white p-3 rounded-xl"
+        : "inline-block bg-pink-100 p-3 rounded-xl";
+
+    bubble.innerHTML = text;
+    wrap.appendChild(bubble);
+
+    document.getElementById("chat-window").appendChild(wrap);
+}
+</script>
+</body>
+</html>

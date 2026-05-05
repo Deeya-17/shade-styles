@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Body Shape Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📏 Body Shape Detector</h1>
+        <p>Enter your body measurements (in inches):</p>
+        <form method="POST">
+            <input type="number" name="bust" step="0.1" placeholder="Bust" required><br>
+            <input type="number" name="waist" step="0.1" placeholder="Waist" required><br>
+            <input type="number" name="hips" step="0.1" placeholder="Hips" required><br>
+            <button type="submit">Detect Body Shape</button>
+        </form>
+
+        {% if result %}
+        <div class="result-box">
+            <h2>✅ Your Body Shape:</h2>
+            <p class="result">{{ result }}</p>
+        </div>
+        <a href="{{ url_for('undertone') }}"><button>Next: Undertone Detector</button></a>
+        {% endif %}
+    </div>
+</body>
+</html>

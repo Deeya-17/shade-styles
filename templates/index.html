@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChicBot: AI Stylist</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* ================= General Body ================= */
+body {
+    background-color: #ffeef4; /* soft baby pink */
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+}
+
+/* ================= Chat Window ================= */
+#chat-window {
+    background-color: #fff0f6; /* very light pink */
+    padding: 1rem;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    scrollbar-width: thin;
+    scrollbar-color: #f9a8d4 #ffeef4;
+    border-radius: 1.5rem;
+}
+
+/* Scrollbar for Webkit */
+#chat-window::-webkit-scrollbar { width: 6px; }
+#chat-window::-webkit-scrollbar-thumb { background-color: #f9a8d4; border-radius: 3px; }
+#chat-window::-webkit-scrollbar-track { background-color: #ffeef4; }
+
+/* ================= Chat Bubbles ================= */
+.chat-bubble {
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    max-width: 65%;
+    word-wrap: break-word;
+    position: relative;
+    transition: transform 0.15s ease-in-out;
+}
+
+/* Hover effect */
+.chat-bubble:hover {
+    transform: scale(1.02);
+}
+
+/* User message */
+.flex.justify-end .chat-bubble {
+    background-color: #f9a8d4; /* darker baby pink */
+    color: white;
+    border-bottom-right-radius: 0.25rem;
+    align-self: flex-end;
+}
+
+/* Bot message */
+.flex.justify-start .chat-bubble {
+    background-color: #fff0f6; /* soft pastel pink */
+    color: #9d174d; /* deep pink text */
+    border-bottom-left-radius: 0.25rem;
+    align-self: flex-start;
+}
+
+/* ================= Timestamp ================= */
+.timestamp {
+    display: block;
+    font-size: 0.65rem;
+    color: #9d174d; /* muted pink */
+    margin-top: 0.25rem;
+    text-align: right;
+}
+
+/* ================= Typing Indicator ================= */
+.typing-text {
+    display: flex;
+    gap: 0.25rem;
+}
+.typing-text span {
+    width: 8px;
+    height: 8px;
+    background-color: #f9a8d4;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1s infinite;
+}
+.typing-text span:nth-child(2) { animation-delay: 0.2s; }
+.typing-text span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-5px); }
+}
+
+/* ================= Input Area ================= */
+input#user-input {
+    border-radius: 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #f9a8d4;
+    flex-grow: 1;
+    outline: none;
+}
+input#user-input:focus {
+    border-color: #f472b6;
+    box-shadow: 0 0 0 2px rgba(244, 114, 182, 0.2);
+}
+
+/* ================= Send Button ================= */
+#send-btn {
+    background: linear-gradient(90deg, #f472b6, #ec4899); /* pink gradient */
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+#send-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ================= Header ================= */
+header {
+    background: linear-gradient(90deg, #f472b6, #ec4899); /* pink gradient */
+    color: white;
+    font-weight: 600;
+    padding: 1rem;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ================= Error Modal ================= */
+#error-modal {
+    background-color: rgba(0,0,0,0.7);
+}
+#error-modal .bg-white {
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* ================= Loading Dots ================= */
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: #f472b6;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 1s infinite;
+}
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+    0%,100% { opacity:0.3; }
+    50% { opacity:1; }
+}
+
+</style>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4 font-sans">
+
+<div class="w-full max-w-2xl bg-white rounded-xl shadow-2xl flex flex-col h-[80vh] md:h-[80vh] overflow-hidden">
+
+    <!-- Header -->
+    <header class="p-4 bg-indigo-600 text-white flex items-center rounded-t-xl shadow-lg">
+        <h1 class="text-xl font-bold">ChicBot: AI Stylist</h1>
+    </header>
+
+    <!-- Chat Window -->
+    <div id="chat-window" class="flex-grow p-4 space-y-4 overflow-y-auto">
+        <div class="flex justify-start">
+            <div class="max-w-xs md:max-w-lg p-3 rounded-xl bg-indigo-100 text-indigo-800 shadow-md rounded-tl-none">
+                <p class="font-semibold">ChicBot</p>
+                <p>Hello! I'm ChicBot, your personal AI stylist. I can help you find the perfect outfit for any occasion.</p>
+            </div>
+        </div>
+
+        <!-- Loading indicator -->
+        <div id="loading" class="hidden flex justify-start">
+            <div class="p-3 bg-gray-200 rounded-xl shadow flex space-x-1">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="p-4 border-t border-gray-200 flex space-x-2">
+        <input 
+            type="text" 
+            id="user-input" 
+            aria-label="Enter your message" 
+            placeholder="E.g., A casual outfit for a summer brunch..."
+            class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:outline-none"
+            onkeypress="if(event.key === 'Enter') sendMessage()"
+        >
+        <button 
+            id="send-btn" 
+            aria-label="Send message"
+            onclick="sendMessage()" 
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg shadow transition disabled:opacity-50"
+        >
+            Send
+        </button>
+    </div>
+</div>
+
+<!-- Error Modal -->
+<div id="error-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-sm">
+        <h3 class="text-xl font-bold text-red-600 mb-2">Connection Error</h3>
+        <p id="error-msg" class="text-gray-700 mb-4">Unable to contact the server. Check your API key or network connection.</p>
+        <button onclick="document.getElementById('error-modal').classList.add('hidden')"
+            class="w-full bg-red-600 text-white py-2 rounded-lg">Close</button>
+    </div>
+</div>
+
+<script>
+async function sendMessage() {
+    const input = document.getElementById("user-input");
+    const message = input.value.trim();
+    if (!message) return;
+    input.value = "";
+
+    addUserMessage(message);
+    document.getElementById("loading").classList.remove("hidden");
+
+    try {
+        const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                message: message,
+                systemPrompt: "You are ChicBot, an AI stylist. Give short, stylish recommendations."
+            })
+        });
+
+        const data = await response.json();
+        document.getElementById("loading").classList.add("hidden");
+
+        if (data.error) { showError(data.error); return; }
+        addBotMessage(data.reply);
+
+    } catch (err) {
+        document.getElementById("loading").classList.add("hidden");
+        showError("Server unreachable.");
+    }
+}
+
+function addUserMessage(text) {
+    const chat = document.getElementById("chat-window");
+    const wrapper = document.createElement("div");
+    wrapper.className = "flex justify-end";
+    const msg = document.createElement("div");
+    msg.className = "max-w-xs md:max-w-lg p-3 rounded-xl bg-indigo-600 text-white shadow-md rounded-br-none";
+    msg.textContent = text;
+    wrapper.appendChild(msg);
+    chat.appendChild(wrapper);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function addBotMessage(text) {
+    const chat = document.getElementById("chat-window");
+    const wrapper = document.createElement("div");
+    wrapper.className = "flex justify-start";
+    const msg = document.createElement("div");
+    msg.className = "max-w-xs md:max-w-lg p-3 rounded-xl bg-indigo-100 text-indigo-800 shadow-md rounded-tl-none";
+    msg.innerHTML = `<p class="font-semibold">ChicBot</p>${text}`;
+    wrapper.appendChild(msg);
+    chat.appendChild(wrapper);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function showError(msg) {
+    document.getElementById("error-msg").textContent = msg;
+    document.getElementById("error-modal").classList.remove("hidden");
+}
+</script>
+</body>
+</html>

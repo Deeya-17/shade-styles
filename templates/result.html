@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results</title>
+    <style>
+        body { text-align: center; font-family: 'Poppins', sans-serif; background: #faf4ff; }
+        img { width: 250px; border-radius: 15px; margin-top: 20px; }
+        .result-box { background: white; border-radius: 20px; padding: 30px; width: 60%; margin: auto; box-shadow: 0 0 10px #ddd; margin-top: 40px; }
+        ul { list-style: none; padding: 0; }
+        li { background: #f1e4ff; margin: 5px auto; padding: 10px; width: 70%; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="result-box">
+        <h1>🎭 Detected Face Shape: {{ face_shape }}</h1>
+        <img src="{{ image_path }}" alt="Uploaded Image">
+
+        {% if recs %}
+        <h2>✨ Hairstyle Suggestions</h2>
+        <ul>
+            {% for h in recs.hairstyles %}
+            <li>{{ h }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>🕶️ Eyewear Suggestions</h2>
+        <ul>
+            {% for e in recs.eyewear %}
+            <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>💍 Accessories Suggestions</h2>
+        <ul>
+            {% for a in recs.accessories %}
+            <li>{{ a }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
